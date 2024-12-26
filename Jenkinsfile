@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'php:8.2.12-cli'
-            args '-v /var/jenkins_home:/var/jenkins_home'
+            args '-v /var/jenkins_home:/var/jenkins_home' // Mount Jenkins home to persist workspace
         }
     }
 
@@ -19,6 +19,8 @@ pipeline {
                 echo 'Setting up PHP environment...'
                 sh '''
                 php -v
+                curl -sS https://getcomposer.org/installer | php
+                mv composer.phar /usr/local/bin/composer
                 composer install
                 '''
             }
