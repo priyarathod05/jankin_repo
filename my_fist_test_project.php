@@ -9,7 +9,7 @@ ini_set('display_errors', 1);  // Display errors
 <h1>My first PHP page
 
 <?php
-echo "Hello World!
+echo "Hello World!";?>
 
 
 </body>
