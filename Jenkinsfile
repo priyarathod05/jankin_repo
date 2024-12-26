@@ -1,8 +1,9 @@
 pipeline {
-    agent any
-
-    environment {
-        PHP_VERSION = ' 8.2.12' // Set the PHP version
+    agent {
+        docker {
+            image 'php:8.2.12-cli'
+            args '-v /var/jenkins_home:/var/jenkins_home'
+        }
     }
 
     stages {
