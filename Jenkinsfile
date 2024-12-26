@@ -1,16 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'php:8.2.12-cli'
-            args '-v /var/jenkins_home:/var/jenkins_home' // Mount Jenkins home to persist workspace
-        }
+    agent any
+
+    environment {
+        PHP_VERSION = '8.2.12'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 echo 'Checking out the code...'
-                git branch: 'main', url: 'https://github.com/priyarathod05/jankin_repo.git'
+                git credentialsId: 'your-credentials-id', branch: 'main', url: 'https://github.com/priyarathod05/jankin_repo.git'
             }
         }
 
@@ -19,8 +18,6 @@ pipeline {
                 echo 'Setting up PHP environment...'
                 sh '''
                 php -v
-                curl -sS https://getcomposer.org/installer | php
-                mv composer.phar /usr/local/bin/composer
                 composer install
                 '''
             }
@@ -43,7 +40,7 @@ pipeline {
         }
         always {
             echo 'Cleaning up workspace...'
-            cleanWs() // Cleans up the workspace after build
+            cleanWs()
         }
     }
 }
